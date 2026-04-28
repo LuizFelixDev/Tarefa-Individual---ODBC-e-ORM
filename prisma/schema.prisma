@@ -3,5 +3,22 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Projeto {
+  id         Int         @id @default(autoincrement())
+  nome       String
+  lider_id   Int?
+
+  atividades Atividade[]
+}
+
+model Atividade {
+  id          Int     @id @default(autoincrement())
+  descricao   String
+  projeto_id  Int
+
+  projeto     Projeto @relation(fields: [projeto_id], references: [id])
 }
